@@ -1,7 +1,5 @@
 const { PubSub } = require('@google-cloud/pubsub');
 const { v4: uuidv4 } = require('uuid');
-const moment = require('moment');
-const axios = require('axios');
 const mailgun = require('mailgun-js');
 const { Sequelize, DataTypes } = require('sequelize');
 
@@ -107,7 +105,6 @@ exports.handleNewUserAccount = async (event, context) => {
   await updateDatabase(userEmail, verificationToken, validityTime);
   console.log(`Verification email sent to ${userEmail}`);
 };
-
 
 async function sendVerificationEmail(userEmail, verificationToken) {
   try {
