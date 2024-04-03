@@ -5,7 +5,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DB, process.env.DB_USER, process.env.DB_PASSWORD, {
   host: process.env.HOST,
-  dialect: 'mysql',
+  dialect: process.env.DIALECT,
   timezone: '+00:00',
 });
 // Define User model
@@ -85,8 +85,8 @@ const User = sequelize.define(
   })
 
 const mg =  mailgun({
-  apiKey: '71bd69a940f3b74a0b6e17218a5e6bed-309b0ef4-201c27e7',
-  domain: 'mycloudwebapp.me' 
+  apiKey: process.env.API_KEY_MAILGUN,
+  domain: process.env.DOMAIN_NAME_MAILGUN
 });
 
 
@@ -108,9 +108,9 @@ exports.handleNewUserAccount = async (event, context) => {
 
 async function sendVerificationEmail(userEmail, verificationToken) {
   try {
-    const apiKey = "71bd69a940f3b74a0b6e17218a5e6bed-309b0ef4-201c27e7";
-    const domain = "mycloudwebapp.me";
-    const sender = "mail@mycloudwebapp.me";
+    const apiKey = process.env.API_KEY_MAILGUN;
+    const domain = process.env.DOMAIN_NAME_MAILGUN;
+    const sender = process.env.SENDER_MAILGUN;
     const data = {
       from: sender,
       to: userEmail,
@@ -126,7 +126,7 @@ async function sendVerificationEmail(userEmail, verificationToken) {
 }
 
 function generateVerificationLink(userEmail,verificationToken) {
-    const baseUrl = 'http://mycloudwebapp.me:8080';
+    const baseUrl = process.env.BASE_URL_LINK;
     const verificationLink = `${baseUrl}/verify-email?username=${userEmail}&token=${verificationToken}`; 
     return verificationLink;
   }
