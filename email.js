@@ -127,7 +127,8 @@ async function sendVerificationEmail(userEmail, verificationToken) {
 
 function generateVerificationLink(userEmail,verificationToken) {
     const baseUrl = process.env.BASE_URL_LINK;
-    const verificationLink = `${baseUrl}/verify-email?username=${userEmail}&token=${verificationToken}`; 
+    const encodedEmail = encodeURIComponent(userEmail);
+    const verificationLink = `${baseUrl}/verify-email?username=${encodedEmail}&token=${verificationToken}`; 
     return verificationLink;
   }
 
